@@ -251,11 +251,12 @@ export default defineComponent({
     });
 
     const valueDisplayParams = computed(() => {
-      const val = multiple.value
-        ? (innerValue.value as SelectValue[]).map((value) => ({
-          value,
-          label: optionsMap.value.get(value)?.label,
-        }))
+      const val = multiple.value && isArray(innerValue.value)
+        ? (innerValue.value as SelectValue[]).map((value) => {
+          const option = optionsMap.value.get(value);
+          // TODO: 默认的 option.index 和 option.disabled 要参考是否传入进行剔除
+          return option;
+        })
         : innerValue.value;
       const params = {
         value: val,
@@ -665,6 +666,7 @@ export default defineComponent({
               suffix: this.suffix,
               tag: this.tag,
               value: this.displayText,
+              options: this.valueDisplayParams.value,
               valueDisplay: () => renderTNode('valueDisplay', { params: this.valueDisplayParams }),
               clearable: this.clearable,
               disabled: this.isDisabled,

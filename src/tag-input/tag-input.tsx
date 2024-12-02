@@ -1,5 +1,5 @@
 import {
-  defineComponent, computed, toRefs, ref, nextTick, watch,
+  defineComponent, computed, toRefs, ref, nextTick, watch, PropType,
 } from '@vue/composition-api';
 
 import { CloseCircleFilledIcon as TdCloseCircleFilledIcon } from 'tdesign-icons-vue';
@@ -18,7 +18,15 @@ import { usePrefixClass } from '../config-provider/useConfig';
 export default defineComponent({
   name: 'TTagInput',
 
-  props: { ...props },
+  props: {
+    ...props,
+    /**
+     * 不对外暴露，参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
+     */
+    options: {
+      type: Array as PropType<any[]>,
+    },
+  },
 
   setup(props: TdTagInputProps, context) {
     const { inputValue, inputProps } = toRefs(props);

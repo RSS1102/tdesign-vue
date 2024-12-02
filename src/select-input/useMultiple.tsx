@@ -3,8 +3,8 @@ import {
 } from '@vue/composition-api';
 import isObject from 'lodash/isObject';
 import lodashGet from 'lodash/get';
-import { TdSelectInputProps, SelectInputKeys } from './type';
-import { SelectInputCommonProperties } from './interface';
+import type { SelectInputKeys } from './type';
+import type { SelectInputCommonProperties, SelectInputProps } from './interface';
 import TagInput, { TagInputValue, TagInputProps } from '../tag-input';
 import Loading from '../loading';
 import useDefaultValue from '../hooks/useDefaultValue';
@@ -22,7 +22,7 @@ const DEFAULT_KEYS: SelectInputKeys = {
   children: 'children',
 };
 
-export default function useMultiple(props: TdSelectInputProps, context: SetupContext) {
+export default function useMultiple(props: SelectInputProps, context: SetupContext) {
   const { inputValue } = toRefs(props);
   const classPrefix = usePrefixClass();
   const tagInputRef = ref();
@@ -91,6 +91,7 @@ export default function useMultiple(props: TdSelectInputProps, context: SetupCon
       valueDisplay: props.valueDisplay,
       value: tags.value,
       inputValue: tInputValue.value || '',
+      options: props.options,
       inputProps: {
         readonly: !props.allowInput || props.readonly,
         inputClass: {

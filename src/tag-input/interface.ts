@@ -1,3 +1,5 @@
+import type { TdTagInputProps } from './type';
+
 interface DragSortContext<T> {
   currentIndex: number;
   current: T;
@@ -35,4 +37,8 @@ export interface DragProps {
 
 export interface DragSortInnerProps extends DragSortInnerData {
   getDragProps?: DragProps;
+}
+
+export interface TagInputProps extends TdTagInputProps, DragSortInnerProps {
+  options?: any[]; // 不对外暴露，参数穿透options, 给SelectInput/SelectInput 自定义选中项呈现的内容和多选状态下设置折叠项内容
 }

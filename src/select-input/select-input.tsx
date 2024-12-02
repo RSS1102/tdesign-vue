@@ -10,7 +10,8 @@ import {
 } from '@vue/composition-api';
 import Popup, { PopupVisibleChangeContext } from '../popup';
 import props from './props';
-import { TdSelectInputProps } from './type';
+import type { TdSelectInputProps } from './type';
+import type { SelectInputProps } from './interface';
 import useSingle from './useSingle';
 import useMultiple from './useMultiple';
 import useOverlayInnerStyle from './useOverlayInnerStyle';
@@ -27,7 +28,7 @@ export default defineComponent({
     },
   },
 
-  setup(props: TdSelectInputProps, context: SetupContext) {
+  setup(props: SelectInputProps, context: SetupContext) {
     const selectInputRef = ref();
     const { classPrefix } = useConfig('classPrefix');
 

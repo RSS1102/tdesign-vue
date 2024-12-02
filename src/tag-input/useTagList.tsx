@@ -1,18 +1,16 @@
 import { ref, SetupContext, toRefs } from '@vue/composition-api';
-import {
-  TagInputValue, TagInputChangeContext, TdTagInputProps, TagInputRemoveContext,
-} from './type';
+import type { TagInputValue, TagInputChangeContext, TagInputRemoveContext } from './type';
 import { InputValue } from '../input';
 import Tag from '../tag';
 import useVModel from '../hooks/useVModel';
 import { useTNodeJSX } from '../hooks/tnode';
 import { useConfig } from '../config-provider/useConfig';
-import { DragProps } from './interface';
+import type { DragProps, TagInputProps } from './interface';
 
 export type ChangeParams = [TagInputChangeContext];
 
 // handle tag add and remove
-export default function useTagList(props: TdTagInputProps, context: SetupContext, getDragProps: DragProps) {
+export default function useTagList(props: TagInputProps, context: SetupContext, getDragProps: DragProps) {
   const renderTNode = useTNodeJSX();
   const { classPrefix } = useConfig('classPrefix');
 
@@ -138,12 +136,15 @@ export default function useTagList(props: TdTagInputProps, context: SetupContext
     // 超出省略
     if (newList.length !== tagValue.value.length) {
       const len = tagValue.value.length - newList.length;
+
+      // 这里会从selectInput/SelectInput中传递options参数，用于自定义选中项呈现的内容和多选状态下设置折叠项内容
+      const selectedOptions = Array.isArray(props?.options) ? props.options : tagValue.value;
       const more = renderTNode('collapsedItems', {
         params: {
           value: tagValue.value,
           count: tagValue.value.length - minCollapsedNum.value,
           collapsedTags: tagValue.value.slice(minCollapsedNum.value, tagValue.value.length), // deprecated
-          collapsedSelectedItems: tagValue.value.slice(minCollapsedNum.value, tagValue.value.length),
+          collapsedSelectedItems: selectedOptions.slice(minCollapsedNum.value, tagValue.value.length),
           onClose,
         },
       });
